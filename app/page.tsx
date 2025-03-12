@@ -18,7 +18,7 @@ export default function Home() {
           <p className="text-xl mb-8">Discover comfort and style for every room</p>
           <Link
             href="/categories/all"
-            className="bg-white text-gray-800 px-8 py-3 rounded-md text-lg font-semibold hover:bg-gray-100 transition duration-300"
+            className="bg-background text-foreground px-8 py-3 rounded-md text-lg font-semibold hover:bg-background/90 transition duration-300"
           >
             Shop Now
           </Link>
@@ -26,32 +26,26 @@ export default function Home() {
       </section>
 
       {/* Featured Products */}
-      <section className="py-16">
+      <section className="py-16 bg-background">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-8 text-center">Featured Products</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Replace with actual product data */}
-            {[1, 2, 3].map((product) => (
-              <div key={product} className="bg-white rounded-lg shadow-md overflow-hidden">
-                <Image
-                  src="/placeholder.svg?height=300&width=400"
-                  alt={`Product ${product}`}
-                  width={400}
-                  height={300}
-                  className="w-full h-64 object-cover"
-                />
+          <h2 className="text-3xl font-bold mb-8 text-center text-foreground">Featured Products</h2>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {[1, 2, 3, 4].map((product) => (
+              <div key={product} className="bg-card rounded-lg overflow-hidden shadow-md">
+                <div className="relative h-48">
+                  <Image
+                    src="/placeholder.svg?height=300&width=400"
+                    alt={`Product ${product}`}
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                </div>
                 <div className="p-4">
-                  <h3 className="text-xl font-semibold mb-2">Product Name</h3>
-                  <p className="text-gray-600 mb-4">Short product description goes here.</p>
-                  <div className="flex justify-between items-center">
-                    <span className="text-xl font-bold">$299.99</span>
-                    <Link
-                      href={`/products/${product}`}
-                      className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300"
-                    >
-                      View Details
-                    </Link>
-                  </div>
+                  <h3 className="text-lg font-semibold text-card-foreground mb-2">Product Name</h3>
+                  <p className="text-muted-foreground mb-4">$299.99</p>
+                  <button className="w-full bg-primary text-primary-foreground py-2 rounded-md hover:bg-primary/90 transition duration-300">
+                    Add to Cart
+                  </button>
                 </div>
               </div>
             ))}
@@ -60,11 +54,11 @@ export default function Home() {
       </section>
 
       {/* Category Highlights */}
-      <section className="bg-gray-100 py-16">
+      <section className="bg-muted py-16">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-8 text-center">Shop by Category</h2>
+          <h2 className="text-3xl font-bold mb-8 text-center text-foreground">Shop by Category</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {["Living Room", "Bedroom", "Office","Kitchen"].map((category) => (
+            {["Living Room", "Bedroom", "Office", "Kitchen"].map((category) => (
               <Link key={category} href={`/categories/${category.toLowerCase().replace(" ", "-")}`} className="group">
                 <div className="relative h-64 rounded-lg overflow-hidden">
                   <Image
