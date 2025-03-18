@@ -1,37 +1,54 @@
 import "./globals.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-import Header from "./components/Header"
-import Footer from "./components/Footer"
+import { ThemeProvider } from "@/app/components/ui/theme-provider"
+import { ToastProvider } from "@/app/contexts/ToastContext"
+import { AuthProvider } from "@/app/contexts/AuthContext"
+import { CartProvider } from "@/app/contexts/CartContext"
+import { Navigation } from "@/app/components/ui/Navigation"
 import type React from "react"
-import { CartProvider } from "./contexts/CartContext"
-import { ThemeProvider } from "./components/theme-provider"
 import { ModeToggle } from "./components/mode-toggle"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Furniture Haven",
-  description: "Your one-stop shop for stylish and comfortable furniture",
+  description: "Modern furniture for your home and office",
 }
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode
-}) {
+}>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <CartProvider>
-            <Header />
-            <div className="fixed bottom-4 right-4 z-50">
-              <ModeToggle />
-            </div>
-            <main className="min-h-screen">{children}</main>
-            <Footer />
-          </CartProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ToastProvider>
+            <AuthProvider>
+              <CartProvider>
+                <div className="flex min-h-screen flex-col">
+                  <Navigation />
+                  <main className="flex-1 bg-background">
+                    {children}
+                  </main>
+                  <footer className="border-t border-border py-6 bg-background">
+                    <div className="container mx-auto px-4">
+                      <p className="text-center text-sm text-muted-foreground">
+                        © {new Date().getFullYear()} Furniture Haven. All rights reserved.
+                      </p>
+                    </div>
+                  </footer>
+                </div>
+              </CartProvider>
+            </AuthProvider>
+          </ToastProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -1,36 +1,122 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Furniture Haven E-commerce
 
-## Getting Started
+A modern e-commerce platform for furniture shopping, built with Next.js, FastAPI, and SQLAlchemy.
 
-First, run the development server:
+## Project Structure
+
+- `/app` - Next.js frontend application
+- `/backend` - FastAPI backend application
+- `/public` - Static assets for the frontend
+
+## Features
+
+- Responsive UI with dark/light mode
+- User authentication and profile management
+- Product browsing and filtering
+- Shopping cart functionality
+- Order management
+- Admin dashboard (for product, order, and user management)
+- RESTful API with OpenAPI documentation
+
+## Prerequisites
+
+- Node.js 18+
+- Python 3.9+
+- Docker and Docker Compose (optional, for containerized setup)
+
+## Setup Instructions
+
+### Option 1: Running with Docker Compose (Recommended)
+
+1. Clone the repository:
+
+```bash
+git clone <repository-url>
+cd furniture-haven
+```
+
+2. Start the application using Docker Compose:
+
+```bash
+docker-compose up
+```
+
+This will start both the frontend and backend services. Access the frontend at http://localhost:3000 and the API documentation at http://localhost:8000/docs.
+
+### Option 2: Manual Setup
+
+#### Frontend Setup
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The frontend will be available at http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+#### Backend Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Navigate to the backend directory:
 
-## Learn More
+```bash
+cd backend
+```
 
-To learn more about Next.js, take a look at the following resources:
+2. Create a virtual environment:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. Install dependencies:
 
-## Deploy on Vercel
+```bash
+pip install -r requirements.txt
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. Start the backend server:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+python run.py
+```
+
+The backend API will be available at http://localhost:8000 with API documentation at http://localhost:8000/docs.
+
+## Default Users
+
+The system is initialized with two default users:
+
+1. Admin User:
+   - Email: admin@example.com
+   - Password: adminpassword
+
+2. Test User:
+   - Email: user@example.com
+   - Password: userpassword
+
+## Development
+
+- Frontend uses Next.js with Tailwind CSS for styling
+- API documentation is available through Swagger UI at http://localhost:8000/docs
+- SQLite is used as the database for simplicity in development
+
+## Deployment
+
+For production deployment:
+
+1. Update the `SECRET_KEY` in the backend's environment variables
+2. Consider using a production-grade database like PostgreSQL
+3. Set up proper HTTPS with a valid SSL certificate
+4. Configure appropriate CORS settings in the backend
+
+## License
+
+[MIT](LICENSE)

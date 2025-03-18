@@ -1,13 +1,13 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
-import { ChevronRight, Grid3X3, LayoutList, FilterIcon } from "lucide-react"
+import { FilterIcon, Grid3X3, LayoutList, ShoppingCart, ChevronRight } from "lucide-react"
 import { Button } from "@/app/components/ui/button"
-import { Skeleton } from "@/app/components/ui/skeleton"
 import { useToast } from "@/app/contexts/ToastContext"
+import { Skeleton } from "@/app/components/ui/skeleton"
 
 interface Product {
   id: string
@@ -18,29 +18,13 @@ interface Product {
   description: string
 }
 
-interface CategoryPageProps {
-  params: {
-    slug: string
-  }
-}
-
-export default function CategoryPage({ params }: CategoryPageProps) {
+export default function AllProductsPage() {
   const router = useRouter()
   const { showToast } = useToast()
   const [products, setProducts] = useState<Product[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [sortOrder, setSortOrder] = useState<'price-asc' | 'price-desc' | 'name-asc'>('name-asc')
-  
-  // Format category name for display (e.g., "living-room" -> "Living Room")
-  const formatCategoryName = (slug: string) => {
-    return slug
-      .split('-')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ')
-  }
-  
-  const categoryName = formatCategoryName(params.slug)
   
   useEffect(() => {
     const fetchProducts = async () => {
@@ -51,7 +35,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
         await new Promise(resolve => setTimeout(resolve, 1000))
         
         // Mock data for all products
-        const allProducts: Product[] = [
+        const mockProducts: Product[] = [
           {
             id: "prod_1",
             name: "Modern Sofa",
@@ -150,17 +134,8 @@ export default function CategoryPage({ params }: CategoryPageProps) {
           }
         ]
         
-        // Filter products by category
-        let filteredProducts: Product[]
-        
-        if (params.slug === 'all') {
-          filteredProducts = [...allProducts]
-        } else {
-          filteredProducts = allProducts.filter(product => product.category === params.slug)
-        }
-        
         // Apply sorting
-        const sortedProducts = sortProducts(filteredProducts, sortOrder)
+        const sortedProducts = sortProducts(mockProducts, sortOrder)
         setProducts(sortedProducts)
       } catch (error) {
         console.error('Error fetching products:', error)
@@ -175,7 +150,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
     }
     
     fetchProducts()
-  }, [params.slug, sortOrder, showToast])
+  }, [sortOrder, showToast])
   
   const sortProducts = (products: Product[], sortOrder: string) => {
     let sortedProducts = [...products]
@@ -197,18 +172,24 @@ export default function CategoryPage({ params }: CategoryPageProps) {
     return sortedProducts
   }
   
+  const handleQuickAddToCart = (product: Product) => {
+    showToast({
+      title: "Added to Cart",
+      description: `${product.name} has been added to your cart`,
+      type: "success"
+    })
+  }
+  
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
           <Link href="/" className="hover:text-foreground">Home</Link>
           <ChevronRight className="h-4 w-4" />
-          <Link href="/categories/all" className="hover:text-foreground">All Products</Link>
-          <ChevronRight className="h-4 w-4" />
-          <span className="text-foreground">{categoryName}</span>
+          <span className="text-foreground">All Products</span>
         </div>
         
-        <h1 className="text-3xl font-bold text-foreground mb-4">{categoryName}</h1>
+        <h1 className="text-3xl font-bold text-foreground mb-4">All Products</h1>
         
         {/* Category Quick Links */}
         <div className="flex flex-wrap gap-2 mb-6">
@@ -223,7 +204,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
               key={category.slug}
               href={`/categories/${category.slug}`}
               className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                category.slug === params.slug 
+                category.slug === 'all' 
                   ? 'bg-primary text-primary-foreground' 
                   : 'bg-card hover:bg-primary/10 text-card-foreground'
               } border border-border`}
@@ -238,7 +219,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
             {isLoading ? (
               <Skeleton className="h-4 w-32" />
             ) : (
-              <>Showing {products.length} product{products.length !== 1 ? 's' : ''} in {categoryName}</>
+              <>Showing {products.length} product{products.length !== 1 ? 's' : ''}</>
             )}
           </p>
           
@@ -287,17 +268,6 @@ export default function CategoryPage({ params }: CategoryPageProps) {
             </div>
           ))}
         </div>
-      ) : products.length === 0 ? (
-        // No products found
-        <div className="text-center py-16">
-          <h2 className="text-2xl font-bold mb-4">No Products Found</h2>
-          <p className="text-muted-foreground mb-6">
-            We couldn't find any products in the {categoryName} category.
-          </p>
-          <Button asChild>
-            <Link href="/categories/all">View All Products</Link>
-          </Button>
-        </div>
       ) : (
         viewMode === 'grid' ? (
           // Grid view
@@ -315,6 +285,11 @@ export default function CategoryPage({ params }: CategoryPageProps) {
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                     className="object-cover transition-transform group-hover:scale-105"
                   />
+                  <div className="absolute top-2 right-2">
+                    <div className="px-2 py-1 text-xs font-medium rounded-full bg-background/80 text-foreground backdrop-blur-sm capitalize">
+                      {product.category.replace('-', ' ')}
+                    </div>
+                  </div>
                 </div>
                 <div className="p-4">
                   <Link href={`/products/${product.id}`}>
@@ -347,6 +322,11 @@ export default function CategoryPage({ params }: CategoryPageProps) {
                     sizes="(max-width: 640px) 100vw, (max-width: 768px) 160px, (max-width: 1024px) 192px, 224px"
                     className="object-cover transition-transform hover:scale-105"
                   />
+                  <div className="absolute top-2 right-2">
+                    <div className="px-2 py-1 text-xs font-medium rounded-full bg-background/80 text-foreground backdrop-blur-sm capitalize">
+                      {product.category.replace('-', ' ')}
+                    </div>
+                  </div>
                 </div>
                 <div className="p-4 flex-1 flex flex-col">
                   <div className="flex-1">
@@ -371,5 +351,4 @@ export default function CategoryPage({ params }: CategoryPageProps) {
       )}
     </div>
   )
-}
-
+} 

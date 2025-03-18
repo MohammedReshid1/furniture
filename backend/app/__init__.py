@@ -1,0 +1,1 @@
+"""Furniture Haven API application.""" 
