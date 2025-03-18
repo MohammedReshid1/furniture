@@ -498,16 +498,16 @@ export default function ProductsPage() {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
                             <DropdownMenuItem asChild>
-                              <a href={`/products/${product.id}`} target="_blank" rel="noopener noreferrer" className="flex items-center">
+                              <Link href={`/products/${product.id}`} target="_blank" rel="noopener noreferrer" className="flex items-center">
                                 <Eye className="mr-2 h-4 w-4" />
                                 View Product
-                              </a>
+                              </Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem asChild>
-                              <a href={`/admin/products/edit/${product.id}`} className="flex items-center">
+                              <Link href={`/admin/products/edit/${product.id}`} className="flex items-center">
                                 <Edit className="mr-2 h-4 w-4" />
                                 Edit Product
-                              </a>
+                              </Link>
                             </DropdownMenuItem>
                             {product.status !== "active" && (
                               <DropdownMenuItem onClick={() => handleStatusChange(product, "active")}>
@@ -546,6 +546,7 @@ export default function ProductsPage() {
                 <PaginationContent>
                   <PaginationItem>
                     <PaginationPrevious 
+                      href="#"
                       onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
                       className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
                     />
@@ -561,6 +562,7 @@ export default function ProductsPage() {
                       return (
                         <PaginationItem key={page}>
                           <PaginationLink
+                            href="#"
                             onClick={() => handlePageChange(page)}
                             isActive={page === currentPage}
                           >
@@ -587,6 +589,7 @@ export default function ProductsPage() {
                   
                   <PaginationItem>
                     <PaginationNext 
+                      href="#"
                       onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
                       className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
                     />

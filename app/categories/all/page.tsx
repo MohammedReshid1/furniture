@@ -74,7 +74,7 @@ export default function AllProductsPage() {
             id: "prod_5",
             name: "Dresser",
             price: 599.99,
-            image: "https://images.unsplash.com/photo-1649317953652-6edcde1e7eef?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+            image: "https://images.unsplash.com/photo-1551298370-9d3d53740c72?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
             category: "bedroom",
             description: "Spacious dresser with six drawers for ample storage."
           },
@@ -82,7 +82,7 @@ export default function AllProductsPage() {
             id: "prod_6",
             name: "Nightstand",
             price: 199.99,
-            image: "https://images.unsplash.com/photo-1593194632834-4b92d0e4a969?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+            image: "https://images.unsplash.com/photo-1503602642458-232111445657?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
             category: "bedroom",
             description: "Compact nightstand with drawer for bedside essentials."
           },
@@ -106,7 +106,7 @@ export default function AllProductsPage() {
             id: "prod_9",
             name: "Bookshelf",
             price: 249.99,
-            image: "https://images.unsplash.com/photo-1588279102920-cf33f141b0d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+            image: "https://images.unsplash.com/photo-1593085260707-5377ba37f868?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
             category: "office",
             description: "Multi-tier bookshelf for displaying books and decorative items."
           },
@@ -208,7 +208,7 @@ export default function AllProductsPage() {
         <h1 className="text-3xl font-bold text-foreground mb-4">All Products</h1>
         
         {/* Category Quick Links */}
-        <div className="flex flex-wrap gap-2 mb-6">
+        <div className="flex flex-wrap gap-2 mb-6 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
           {[
             { name: "All Products", slug: "all" },
             { name: "Living Room", slug: "living-room" },
@@ -219,7 +219,7 @@ export default function AllProductsPage() {
             <Link 
               key={category.slug}
               href={`/categories/${category.slug}`}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
                 category.slug === 'all' 
                   ? 'bg-primary text-primary-foreground' 
                   : 'bg-card hover:bg-primary/10 text-card-foreground'
@@ -230,7 +230,7 @@ export default function AllProductsPage() {
           ))}
         </div>
         
-        <div className="flex flex-wrap gap-4 justify-between items-center">
+        <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center mb-6">
           <div className="text-muted-foreground">
             {isLoading ? (
               <Skeleton className="h-4 w-32" />
@@ -287,7 +287,7 @@ export default function AllProductsPage() {
       ) : (
         viewMode === 'grid' ? (
           // Grid view
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
             {products.map((product) => (
               <div 
                 key={product.id} 
@@ -298,8 +298,9 @@ export default function AllProductsPage() {
                     src={product.image}
                     alt={product.name}
                     fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                    sizes="(max-width: 639px) 100vw, (max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                     className="object-cover transition-transform group-hover:scale-105"
+                    priority={product.id === "prod_1" || product.id === "prod_2"}
                   />
                   <div className="absolute top-2 right-2">
                     <div className="px-2 py-1 text-xs font-medium rounded-full bg-background/80 text-foreground backdrop-blur-sm capitalize">
@@ -312,12 +313,23 @@ export default function AllProductsPage() {
                     <h3 className="font-semibold text-card-foreground hover:text-primary truncate">{product.name}</h3>
                   </Link>
                   <p className="text-lg font-medium text-primary mt-1 mb-4">${product.price.toFixed(2)}</p>
-                  <Button 
-                    className="w-full"
-                    onClick={() => router.push(`/products/${product.id}`)}
-                  >
-                    View Details
-                  </Button>
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <Button 
+                      className="w-full"
+                      onClick={() => router.push(`/products/${product.id}`)}
+                    >
+                      View Details
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="sm:w-10 hidden sm:flex"
+                      onClick={() => handleQuickAddToCart(product)}
+                      aria-label={`Add ${product.name} to cart`}
+                    >
+                      <ShoppingCart className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
               </div>
             ))}
@@ -337,8 +349,9 @@ export default function AllProductsPage() {
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 768px) 160px, (max-width: 1024px) 192px, 224px"
                     className="object-cover transition-transform hover:scale-105"
+                    priority={product.id === "prod_1" || product.id === "prod_2"}
                   />
-                  <div className="absolute top-2 right-2">
+                  <div className="absolute top-2 right-2 sm:left-2 sm:right-auto">
                     <div className="px-2 py-1 text-xs font-medium rounded-full bg-background/80 text-foreground backdrop-blur-sm capitalize">
                       {product.category.replace('-', ' ')}
                     </div>
@@ -352,11 +365,20 @@ export default function AllProductsPage() {
                     <p className="text-xl font-medium text-primary mt-1 mb-2">${product.price.toFixed(2)}</p>
                     <p className="text-muted-foreground line-clamp-2 mb-4">{product.description}</p>
                   </div>
-                  <div className="flex justify-end">
+                  <div className="flex flex-col sm:flex-row gap-2 sm:justify-end">
                     <Button 
+                      className="w-full sm:w-auto"
                       onClick={() => router.push(`/products/${product.id}`)}
                     >
                       View Details
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="w-full sm:w-auto"
+                      onClick={() => handleQuickAddToCart(product)}
+                    >
+                      <ShoppingCart className="h-4 w-4 mr-2" />
+                      Add to Cart
                     </Button>
                   </div>
                 </div>

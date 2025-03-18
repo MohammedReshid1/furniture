@@ -382,9 +382,11 @@ export default function UsersPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <h1 className="text-3xl font-bold tracking-tight">Users</h1>
-        <Button>
-          <UserPlus className="mr-2 h-4 w-4" />
-          Add User
+        <Button asChild>
+          <Link href="/admin/users/new">
+            <UserPlus className="mr-2 h-4 w-4" />
+            Add User
+          </Link>
         </Button>
       </div>
       
@@ -603,6 +605,7 @@ export default function UsersPage() {
                 <PaginationContent>
                   <PaginationItem>
                     <PaginationPrevious 
+                      href="#"
                       onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
                       className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
                     />
@@ -618,6 +621,7 @@ export default function UsersPage() {
                       return (
                         <PaginationItem key={page}>
                           <PaginationLink
+                            href="#"
                             onClick={() => handlePageChange(page)}
                             isActive={page === currentPage}
                           >
@@ -644,6 +648,7 @@ export default function UsersPage() {
                   
                   <PaginationItem>
                     <PaginationNext 
+                      href="#"
                       onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
                       className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
                     />

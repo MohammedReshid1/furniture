@@ -619,6 +619,7 @@ export default function OrdersPage() {
                 <PaginationContent>
                   <PaginationItem>
                     <PaginationPrevious 
+                      href="#"
                       onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
                       className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
                     />
@@ -634,6 +635,7 @@ export default function OrdersPage() {
                       return (
                         <PaginationItem key={page}>
                           <PaginationLink
+                            href="#"
                             onClick={() => handlePageChange(page)}
                             isActive={page === currentPage}
                           >
@@ -660,6 +662,7 @@ export default function OrdersPage() {
                   
                   <PaginationItem>
                     <PaginationNext 
+                      href="#"
                       onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
                       className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
                     />

@@ -217,7 +217,7 @@ const MOCK_PRODUCTS = {
     id: "prod_5",
     name: "Dresser",
     price: 599.99,
-    image: "https://images.unsplash.com/photo-1594131431720-7e238c45c9c8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80",
+    image: "https://images.unsplash.com/photo-1551298370-9d3d53740c72?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80",
     description: `
       Complete your bedroom set with our spacious dresser. Featuring six drawers with smooth glides, this dresser offers ample storage for all your clothing and accessories.
       
@@ -256,7 +256,7 @@ const MOCK_PRODUCTS = {
     id: "prod_6",
     name: "Nightstand",
     price: 199.99,
-    image: "https://images.unsplash.com/photo-1591781914058-2533ee0345fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80",
+    image: "https://images.unsplash.com/photo-1503602642458-232111445657?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80",
     description: `
       This elegant nightstand is the perfect bedside companion. With a spacious drawer and open shelf, it provides convenient storage for your nighttime essentials.
       
@@ -326,7 +326,7 @@ const MOCK_PRODUCTS = {
         id: "prod_9",
         name: "Bookshelf",
         price: 249.99,
-        image: "https://images.unsplash.com/photo-1588279102920-cf33f141b0d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+        image: "https://images.unsplash.com/photo-1593085260707-5377ba37f868?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80"
       }
     ]
   },
@@ -366,7 +366,7 @@ const MOCK_PRODUCTS = {
         id: "prod_9",
         name: "Bookshelf",
         price: 249.99,
-        image: "https://images.unsplash.com/photo-1588279102920-cf33f141b0d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+        image: "https://images.unsplash.com/photo-1593085260707-5377ba37f868?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80"
       }
     ]
   },
@@ -374,7 +374,7 @@ const MOCK_PRODUCTS = {
     id: "prod_9",
     name: "Bookshelf",
     price: 249.99,
-    image: "https://images.unsplash.com/photo-1588279102920-cf33f141b0d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80",
+    image: "https://images.unsplash.com/photo-1593085260707-5377ba37f868?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80",
     description: `
       Showcase your book collection and decorative items with our modern bookshelf. With its sturdy construction and elegant design, this bookshelf combines functionality with style.
       
