@@ -21,14 +21,15 @@ export default function Footer() {
           {/* Company Information */}
           <div>
             <Link href="/" className="flex items-center mb-4">
-              <Image 
-                src="/logo.png" 
-                alt="ModernHome Logo" 
-                width={40} 
-                height={40} 
-                className="mr-2"
-              />
-              <span className="text-xl font-bold">ModernHome</span>
+              <div className="relative w-10 h-10 mr-2">
+                <Image 
+                  src="https://images.unsplash.com/photo-1540932239986-30128078f3c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200&q=80" 
+                  alt="Furniture Haven Logo" 
+                  fill
+                  className="rounded-full object-cover"
+                />
+              </div>
+              <span className="text-xl font-bold">Furniture Haven</span>
             </Link>
             <p className="text-muted-foreground mb-4">
               Modern furniture for modern living. Quality pieces designed for comfort, style, and lasting value.
@@ -44,7 +45,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center text-muted-foreground">
                 <Mail size={16} className="mr-2" />
-                <span>hello@modernhome.com</span>
+                <span>hello@furniturehaven.com</span>
               </div>
             </div>
           </div>
@@ -159,7 +160,7 @@ export default function Footer() {
         
         <div className="border-t border-border mt-12 pt-6 flex flex-col md:flex-row justify-between items-center">
           <p className="text-muted-foreground text-sm mb-4 md:mb-0">
-            © {new Date().getFullYear()} ModernHome Furniture. All rights reserved.
+            © {new Date().getFullYear()} Furniture Haven. All rights reserved.
           </p>
           <div className="flex flex-wrap justify-center gap-4 text-sm text-muted-foreground">
             <Link href="/privacy" className="hover:text-foreground transition-colors">

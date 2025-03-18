@@ -9,6 +9,7 @@ export interface User {
   email: string
   fullName: string
   isAdmin: boolean
+  phone?: string
 }
 
 interface LoginCredentials {
@@ -22,6 +23,12 @@ interface RegisterData {
   fullName: string
 }
 
+interface UpdateProfileData {
+  fullName: string
+  email: string
+  phone?: string
+}
+
 interface AuthContextType {
   user: User | null
   isLoading: boolean
@@ -29,6 +36,7 @@ interface AuthContextType {
   login: (credentials: LoginCredentials) => Promise<boolean>
   register: (data: RegisterData) => Promise<boolean>
   logout: () => void
+  updateProfile: (data: UpdateProfileData) => Promise<boolean>
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -38,6 +46,7 @@ const AuthContext = createContext<AuthContextType>({
   login: async () => false,
   register: async () => false,
   logout: () => {},
+  updateProfile: async () => false,
 })
 
 export const useAuth = () => useContext(AuthContext)
@@ -210,6 +219,34 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
+  const updateProfile = async (data: UpdateProfileData): Promise<boolean> => {
+    try {
+      if (!user) return false;
+      
+      // Create updated user object
+      const updatedUser: User = {
+        ...user,
+        fullName: data.fullName,
+        email: data.email,
+        phone: data.phone
+      };
+      
+      // Update in localStorage
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      setUser(updatedUser);
+      
+      return true;
+    } catch (error) {
+      console.error('Update profile error:', error);
+      showToast({
+        title: 'Update failed',
+        description: 'An error occurred while updating your profile',
+        type: 'error'
+      });
+      return false;
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -219,6 +256,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         login,
         register,
         logout,
+        updateProfile,
       }}
     >
       {children}

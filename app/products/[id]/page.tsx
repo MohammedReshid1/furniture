@@ -1,12 +1,14 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import React from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Minus, Plus, Star, ChevronRight } from "lucide-react"
 import { Button } from "@/app/components/ui/button"
 import { Skeleton } from "@/app/components/ui/skeleton"
 import { useToast } from "@/app/contexts/ToastContext"
+import { useCart } from "@/app/contexts/CartContext"
 
 interface Product {
   id: string
@@ -28,83 +30,261 @@ interface RelatedProduct {
   image: string
 }
 
-interface ProductDetailPageProps {
-  params: {
-    id: string
-  }
+interface ProductParams {
+  id: string
 }
 
-export default function ProductDetailPage({ params }: ProductDetailPageProps) {
+interface ProductDetailPageProps {
+  params: Promise<ProductParams>
+}
+
+// Mock product database
+const MOCK_PRODUCTS = {
+  "prod_1": {
+    id: "prod_1",
+    name: "Modern Sofa",
+    price: 899.99,
+    image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80",
+    description: `
+      This modern sofa is the perfect centerpiece for any contemporary living space. 
+      Crafted with premium upholstery and a sturdy hardwood frame, this sofa offers both 
+      style and durability. The clean lines and minimalist design complement a variety of decor styles, 
+      while the plush cushions provide exceptional comfort for relaxation and entertaining.
+      
+      Features:
+      - Premium upholstery
+      - Hardwood frame for durability
+      - High-density foam cushions for comfort
+      - Stain-resistant coating
+      - Available in multiple colors
+      
+      Dimensions:
+      - Width: 84 inches
+      - Depth: 38 inches
+      - Height: 34 inches
+      - Seat Height: 18 inches
+    `,
+    category: "living-room",
+    rating: 4.7,
+    reviews: 124,
+    stock: 15,
+    relatedProducts: [
+      {
+        id: "prod_2",
+        name: "Leather Armchair",
+        price: 499.99,
+        image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      },
+      {
+        id: "prod_3",
+        name: "Coffee Table",
+        price: 299.99,
+        image: "https://images.unsplash.com/photo-1499933374294-4584851497cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      },
+      {
+        id: "prod_10",
+        name: "Floor Lamp",
+        price: 149.99,
+        image: "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      },
+      {
+        id: "prod_12",
+        name: "Decorative Pillows Set",
+        price: 79.99,
+        image: "https://images.unsplash.com/photo-1584013482381-b54c28cedb88?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      }
+    ]
+  },
+  "prod_2": {
+    id: "prod_2",
+    name: "Leather Armchair",
+    price: 499.99,
+    image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80",
+    description: `
+      Indulge in the luxury of our premium leather armchair. This elegant piece combines timeless design with unmatched comfort, making it the perfect addition to any living room, study, or bedroom.
+      
+      Features:
+      - Genuine top-grain leather upholstery
+      - Kiln-dried hardwood frame
+      - High-resilience foam cushions
+      - Traditional rolled arms
+      - Antique brass nailhead trim
+      
+      Dimensions:
+      - Width: 35 inches
+      - Depth: 38 inches
+      - Height: 36 inches
+      - Seat Height: 19 inches
+    `,
+    category: "living-room",
+    rating: 4.8,
+    reviews: 86,
+    stock: 8,
+    relatedProducts: [
+      {
+        id: "prod_1",
+        name: "Modern Sofa",
+        price: 899.99,
+        image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      },
+      {
+        id: "prod_3",
+        name: "Coffee Table",
+        price: 299.99,
+        image: "https://images.unsplash.com/photo-1499933374294-4584851497cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      }
+    ]
+  },
+  "prod_3": {
+    id: "prod_3",
+    name: "Coffee Table",
+    price: 299.99,
+    image: "https://images.unsplash.com/photo-1499933374294-4584851497cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80",
+    description: `
+      Elevate your living space with our contemporary coffee table. Featuring a sleek design and ample surface area, this table provides the perfect balance of form and function for your home.
+      
+      Features:
+      - Tempered glass top
+      - Solid wood base
+      - Modern geometric design
+      - Lower shelf for storage
+      - Easy assembly
+      
+      Dimensions:
+      - Length: 48 inches
+      - Width: 24 inches
+      - Height: 16 inches
+    `,
+    category: "living-room",
+    rating: 4.5,
+    reviews: 54,
+    stock: 20,
+    relatedProducts: [
+      {
+        id: "prod_1",
+        name: "Modern Sofa",
+        price: 899.99,
+        image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      },
+      {
+        id: "prod_2",
+        name: "Leather Armchair",
+        price: 499.99,
+        image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      }
+    ]
+  },
+  "prod_4": {
+    id: "prod_4",
+    name: "Queen Bed Frame",
+    price: 799.99,
+    image: "https://images.unsplash.com/photo-1505693314120-0d443867891c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80",
+    description: `
+      Transform your bedroom with our elegant queen bed frame. Crafted from solid wood with impeccable attention to detail, this bed frame will be the centerpiece of your bedroom for years to come.
+      
+      Features:
+      - Solid oak construction
+      - Traditional panel design
+      - Box spring required
+      - Includes headboard, footboard, and rails
+      - Easy assembly
+      
+      Dimensions:
+      - Length: 85 inches
+      - Width: 64 inches
+      - Height: 48 inches (headboard)
+    `,
+    category: "bedroom",
+    rating: 4.9,
+    reviews: 72,
+    stock: 5,
+    relatedProducts: [
+      {
+        id: "prod_5",
+        name: "Dresser",
+        price: 599.99,
+        image: "https://images.unsplash.com/photo-1649317953652-6edcde1e7eef?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      },
+      {
+        id: "prod_6",
+        name: "Nightstand",
+        price: 199.99,
+        image: "https://images.unsplash.com/photo-1593194632834-4b92d0e4a969?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      }
+    ]
+  },
+  "prod_9": {
+    id: "prod_9",
+    name: "Bookshelf",
+    price: 249.99,
+    image: "https://images.unsplash.com/photo-1588279102920-cf33f141b0d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80",
+    description: `
+      Showcase your book collection and decorative items with our modern bookshelf. With its sturdy construction and elegant design, this bookshelf combines functionality with style.
+      
+      Features:
+      - 5 adjustable shelves
+      - Engineered wood with natural finish
+      - Metal frame accents
+      - Anti-tip wall anchoring system
+      - Simple assembly required
+      
+      Dimensions:
+      - Width: 36 inches
+      - Depth: 12 inches
+      - Height: 72 inches
+    `,
+    category: "office",
+    rating: 4.4,
+    reviews: 38,
+    stock: 12,
+    relatedProducts: [
+      {
+        id: "prod_7",
+        name: "Executive Desk",
+        price: 699.99,
+        image: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      },
+      {
+        id: "prod_8",
+        name: "Office Chair",
+        price: 349.99,
+        image: "https://images.unsplash.com/photo-1580480055273-228ff5388ef8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      }
+    ]
+  }
+};
+
+export default function ProductDetailPage({ params: paramsPromise }: ProductDetailPageProps) {
+  // Properly unwrap the params with React.use()
+  const params = React.use(paramsPromise);
+  const productId = params.id;
+  
   const { showToast } = useToast()
+  const { addToCart: addProductToCart } = useCart()
   const [product, setProduct] = useState<Product | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [quantity, setQuantity] = useState(1)
+  const [notFound, setNotFound] = useState(false)
   
   useEffect(() => {
     const fetchProduct = async () => {
       setIsLoading(true)
+      setNotFound(false)
+      
       try {
-        // In a real app, this would be an API call
+        // Simulate API call delay
         await new Promise(resolve => setTimeout(resolve, 1000))
         
-        // Mock product data
-        const mockProduct: Product = {
-          id: params.id,
-          name: "Modern Leather Sofa",
-          price: 999.99,
-          image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80",
-          description: `
-            This modern leather sofa is the perfect centerpiece for any contemporary living space. 
-            Crafted with premium leather upholstery and a sturdy hardwood frame, this sofa offers both 
-            style and durability. The clean lines and minimalist design complement a variety of decor styles, 
-            while the plush cushions provide exceptional comfort for relaxation and entertaining.
-            
-            Features:
-            - Premium leather upholstery
-            - Hardwood frame for durability
-            - High-density foam cushions for comfort
-            - Stain-resistant coating
-            - Available in multiple colors
-            
-            Dimensions:
-            - Width: 84 inches
-            - Depth: 38 inches
-            - Height: 34 inches
-            - Seat Height: 18 inches
-          `,
-          category: "living-room",
-          rating: 4.7,
-          reviews: 124,
-          stock: 15,
-          relatedProducts: [
-            {
-              id: "prod_2",
-              name: "Leather Armchair",
-              price: 499.99,
-              image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
-            },
-            {
-              id: "prod_3",
-              name: "Coffee Table",
-              price: 299.99,
-              image: "https://images.unsplash.com/photo-1499933374294-4584851497cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
-            },
-            {
-              id: "prod_10",
-              name: "Floor Lamp",
-              price: 149.99,
-              image: "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
-            },
-            {
-              id: "prod_12",
-              name: "Decorative Pillows Set",
-              price: 79.99,
-              image: "https://images.unsplash.com/photo-1584013482381-b54c28cedb88?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
-            }
-          ]
-        }
+        // Look up the product by ID
+        const foundProduct = MOCK_PRODUCTS[productId as keyof typeof MOCK_PRODUCTS];
         
-        setProduct(mockProduct)
+        if (foundProduct) {
+          setProduct(foundProduct)
+        } else {
+          // If we don't have this product in our mock database, set not found
+          setNotFound(true)
+          console.error(`Product with ID ${productId} not found`)
+        }
       } catch (error) {
         console.error('Error fetching product:', error)
         showToast({
@@ -112,13 +292,14 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
           description: "Failed to load product. Please try again later.",
           type: "error"
         })
+        setNotFound(true)
       } finally {
         setIsLoading(false)
       }
     }
     
     fetchProduct()
-  }, [params.id, showToast])
+  }, [productId, showToast])
   
   const incrementQuantity = () => {
     if (product && quantity < product.stock) {
@@ -135,8 +316,20 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
   const addToCart = () => {
     if (!product) return
     
-    // In a real app, this would add the product to a cart context or make an API call
-    console.log(`Adding to cart: ${quantity} x ${product.name}`)
+    // Convert the product to match the format expected by CartContext
+    const cartProduct = {
+      _id: product.id,
+      name: product.name,
+      price: product.price,
+      description: product.description,
+      images: [product.image],
+      inStock: product.stock,
+      category: product.category
+    }
+    
+    // Call the addToCart function from the cart context
+    addProductToCart(cartProduct, quantity)
+    
     showToast({
       title: "Added to Cart",
       description: `${quantity} x ${product.name} added to your cart`,
@@ -191,7 +384,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
     )
   }
   
-  if (!product) {
+  if (notFound || !product) {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center py-12">

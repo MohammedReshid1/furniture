@@ -7,6 +7,7 @@ import Image from "next/image"
 import { FilterIcon, Grid3X3, LayoutList, ShoppingCart, ChevronRight } from "lucide-react"
 import { Button } from "@/app/components/ui/button"
 import { useToast } from "@/app/contexts/ToastContext"
+import { useCart } from "@/app/contexts/CartContext"
 import { Skeleton } from "@/app/components/ui/skeleton"
 
 interface Product {
@@ -21,6 +22,7 @@ interface Product {
 export default function AllProductsPage() {
   const router = useRouter()
   const { showToast } = useToast()
+  const { addToCart } = useCart()
   const [products, setProducts] = useState<Product[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
@@ -72,7 +74,7 @@ export default function AllProductsPage() {
             id: "prod_5",
             name: "Dresser",
             price: 599.99,
-            image: "https://images.unsplash.com/photo-1595515106886-52d0341162c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+            image: "https://images.unsplash.com/photo-1649317953652-6edcde1e7eef?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
             category: "bedroom",
             description: "Spacious dresser with six drawers for ample storage."
           },
@@ -80,7 +82,7 @@ export default function AllProductsPage() {
             id: "prod_6",
             name: "Nightstand",
             price: 199.99,
-            image: "https://images.unsplash.com/photo-1591129841117-3adfd313a592?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+            image: "https://images.unsplash.com/photo-1593194632834-4b92d0e4a969?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
             category: "bedroom",
             description: "Compact nightstand with drawer for bedside essentials."
           },
@@ -104,7 +106,7 @@ export default function AllProductsPage() {
             id: "prod_9",
             name: "Bookshelf",
             price: 249.99,
-            image: "https://images.unsplash.com/photo-1594620302200-9a678ed14c4d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+            image: "https://images.unsplash.com/photo-1588279102920-cf33f141b0d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
             category: "office",
             description: "Multi-tier bookshelf for displaying books and decorative items."
           },
@@ -128,7 +130,7 @@ export default function AllProductsPage() {
             id: "prod_12",
             name: "Kitchen Island",
             price: 649.99,
-            image: "https://images.unsplash.com/photo-1556911220-bda9f7f37446?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+            image: "https://images.unsplash.com/photo-1600489000022-c2086d79f9d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
             category: "kitchen",
             description: "Multi-functional kitchen island with storage and seating."
           }
@@ -173,6 +175,20 @@ export default function AllProductsPage() {
   }
   
   const handleQuickAddToCart = (product: Product) => {
+    // Convert the product to match the format expected by CartContext
+    const cartProduct = {
+      _id: product.id,
+      name: product.name,
+      price: product.price,
+      description: product.description,
+      images: [product.image],
+      inStock: 10, // Assuming default stock
+      category: product.category
+    }
+    
+    // Add to cart with quantity 1
+    addToCart(cartProduct, 1)
+    
     showToast({
       title: "Added to Cart",
       description: `${product.name} has been added to your cart`,
@@ -215,13 +231,13 @@ export default function AllProductsPage() {
         </div>
         
         <div className="flex flex-wrap gap-4 justify-between items-center">
-          <p className="text-muted-foreground">
+          <div className="text-muted-foreground">
             {isLoading ? (
               <Skeleton className="h-4 w-32" />
             ) : (
               <>Showing {products.length} product{products.length !== 1 ? 's' : ''}</>
             )}
-          </p>
+          </div>
           
           <div className="flex gap-4 items-center">
             <div className="flex items-center rounded-md border border-border p-1 bg-background">

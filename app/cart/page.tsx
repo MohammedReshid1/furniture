@@ -142,7 +142,7 @@ export default function CartPage() {
             >
               <div className="w-full sm:w-24 h-24 relative rounded overflow-hidden mb-4 sm:mb-0 sm:mr-4">
                 <Image
-                  src={item.product.images[0]}
+                  src={Array.isArray(item.product.images) ? item.product.images[0] : item.product.images}
                   alt={item.product.name}
                   fill
                   className="object-cover"

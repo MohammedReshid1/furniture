@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import React from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
@@ -8,6 +9,7 @@ import { ArrowLeft, Copy, Package, Truck, CheckCircle, Clock, AlertCircle, Calen
 import { Button } from "@/app/components/ui/button"
 import { Skeleton } from "@/app/components/ui/skeleton"
 import { useToast } from "@/app/contexts/ToastContext"
+import { useAuth } from "@/app/contexts/AuthContext"
 
 interface OrderItem {
   _id: string
@@ -37,13 +39,17 @@ interface Order {
   estimatedDelivery?: string
 }
 
-interface OrderDetailPageProps {
-  params: {
-    id: string
-  }
+interface OrderParams {
+  id: string
 }
 
-export default function OrderDetailPage({ params }: OrderDetailPageProps) {
+interface OrderDetailPageProps {
+  params: OrderParams
+}
+
+export default function OrderDetailPage({ params: paramsPromise }: OrderDetailPageProps) {
+  // Unwrap the params
+  const params = paramsPromise as OrderParams
   const router = useRouter()
   const { showToast } = useToast()
   const [order, setOrder] = useState<Order | null>(null)

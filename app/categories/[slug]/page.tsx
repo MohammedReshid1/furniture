@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import React from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
@@ -18,13 +19,17 @@ interface Product {
   description: string
 }
 
-interface CategoryPageProps {
-  params: {
-    slug: string
-  }
+interface CategoryParams {
+  slug: string
 }
 
-export default function CategoryPage({ params }: CategoryPageProps) {
+interface CategoryPageProps {
+  params: CategoryParams
+}
+
+export default function CategoryPage({ params: paramsPromise }: CategoryPageProps) {
+  // Unwrap the params
+  const params = paramsPromise as CategoryParams
   const router = useRouter()
   const { showToast } = useToast()
   const [products, setProducts] = useState<Product[]>([])
@@ -234,13 +239,13 @@ export default function CategoryPage({ params }: CategoryPageProps) {
         </div>
         
         <div className="flex flex-wrap gap-4 justify-between items-center">
-          <p className="text-muted-foreground">
+          <div className="text-muted-foreground">
             {isLoading ? (
               <Skeleton className="h-4 w-32" />
             ) : (
               <>Showing {products.length} product{products.length !== 1 ? 's' : ''} in {categoryName}</>
             )}
-          </p>
+          </div>
           
           <div className="flex gap-4 items-center">
             <div className="flex items-center rounded-md border border-border p-1 bg-background">
