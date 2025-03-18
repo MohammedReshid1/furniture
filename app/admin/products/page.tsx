@@ -97,7 +97,7 @@ const mockProducts: Product[] = [
     price: 349.99, 
     stock: 12, 
     status: "active", 
-    image: "https://images.unsplash.com/photo-1588279102906-e65676a34760?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80"
+    image: "https://images.unsplash.com/photo-1593085260707-5377ba37f868?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80"
   },
   { 
     id: "prod_5", 
@@ -106,7 +106,7 @@ const mockProducts: Product[] = [
     price: 499.99, 
     stock: 10, 
     status: "active", 
-    image: "https://images.unsplash.com/photo-1551375560-93c1a50b8d49?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80"
+    image: "https://images.unsplash.com/photo-1551298370-9d3d53740c72?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80"
   },
   { 
     id: "prod_6", 
@@ -115,7 +115,7 @@ const mockProducts: Product[] = [
     price: 149.99, 
     stock: 18, 
     status: "active", 
-    image: "https://images.unsplash.com/photo-1532372320572-cda25653a694?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80"
+    image: "https://images.unsplash.com/photo-1503602642458-232111445657?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80"
   },
   { 
     id: "prod_7", 
@@ -133,7 +133,7 @@ const mockProducts: Product[] = [
     price: 299.99, 
     stock: 14, 
     status: "active", 
-    image: "https://images.unsplash.com/photo-1505657121987-19365bca6e16?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80"
+    image: "https://images.unsplash.com/photo-1580480055273-228ff5388ef8?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80"
   },
   { 
     id: "prod_9", 
