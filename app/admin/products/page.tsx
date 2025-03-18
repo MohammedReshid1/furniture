@@ -49,6 +49,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Label } from "@/app/components/ui/label"
 import { Textarea } from "@/app/components/ui/textarea"
 import { useToast } from "@/app/contexts/ToastContext"
+import Link from "next/link"
 
 interface Product {
   id: string
@@ -368,9 +369,11 @@ export default function ProductsPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <h1 className="text-3xl font-bold tracking-tight">Products</h1>
-        <Button>
-          <Plus className="mr-2 h-4 w-4" />
-          Add Product
+        <Button asChild>
+          <Link href="/admin/products/new">
+            <Plus className="mr-2 h-4 w-4" />
+            Add Product
+          </Link>
         </Button>
       </div>
       

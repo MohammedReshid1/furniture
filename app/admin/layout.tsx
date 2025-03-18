@@ -37,6 +37,15 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const NavLink = ({ href, children, icon: Icon }: { href: string; children: React.ReactNode; icon: any }) => {
     const isActive = pathname === href || pathname?.startsWith(`${href}/`)
     
+    if (!href) {
+      return (
+        <div className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground">
+          <Icon className="h-4 w-4" />
+          {children}
+        </div>
+      );
+    }
+    
     return (
       <Link 
         href={href}
