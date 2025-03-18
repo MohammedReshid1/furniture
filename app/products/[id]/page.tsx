@@ -203,13 +203,170 @@ const MOCK_PRODUCTS = {
         id: "prod_5",
         name: "Dresser",
         price: 599.99,
-        image: "https://images.unsplash.com/photo-1649317953652-6edcde1e7eef?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+        image: "https://images.unsplash.com/photo-1594131431720-7e238c45c9c8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
       },
       {
         id: "prod_6",
         name: "Nightstand",
         price: 199.99,
-        image: "https://images.unsplash.com/photo-1593194632834-4b92d0e4a969?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+        image: "https://images.unsplash.com/photo-1591781914058-2533ee0345fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      }
+    ]
+  },
+  "prod_5": {
+    id: "prod_5",
+    name: "Dresser",
+    price: 599.99,
+    image: "https://images.unsplash.com/photo-1594131431720-7e238c45c9c8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80",
+    description: `
+      Complete your bedroom set with our spacious dresser. Featuring six drawers with smooth glides, this dresser offers ample storage for all your clothing and accessories.
+      
+      Features:
+      - Solid wood construction
+      - Six spacious drawers
+      - Metal drawer pulls
+      - Anti-tip safety hardware included
+      - Pre-assembled drawers
+      
+      Dimensions:
+      - Width: 60 inches
+      - Depth: 18 inches
+      - Height: 32 inches
+    `,
+    category: "bedroom",
+    rating: 4.7,
+    reviews: 45,
+    stock: 8,
+    relatedProducts: [
+      {
+        id: "prod_4",
+        name: "Queen Bed Frame",
+        price: 799.99,
+        image: "https://images.unsplash.com/photo-1505693314120-0d443867891c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      },
+      {
+        id: "prod_6",
+        name: "Nightstand",
+        price: 199.99,
+        image: "https://images.unsplash.com/photo-1591781914058-2533ee0345fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      }
+    ]
+  },
+  "prod_6": {
+    id: "prod_6",
+    name: "Nightstand",
+    price: 199.99,
+    image: "https://images.unsplash.com/photo-1591781914058-2533ee0345fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80",
+    description: `
+      This elegant nightstand is the perfect bedside companion. With a spacious drawer and open shelf, it provides convenient storage for your nighttime essentials.
+      
+      Features:
+      - Solid wood construction
+      - One drawer with metal glides
+      - Open shelf for display or additional storage
+      - Antique brass hardware
+      - Easy assembly
+      
+      Dimensions:
+      - Width: 24 inches
+      - Depth: 16 inches
+      - Height: 26 inches
+    `,
+    category: "bedroom",
+    rating: 4.6,
+    reviews: 38,
+    stock: 12,
+    relatedProducts: [
+      {
+        id: "prod_4",
+        name: "Queen Bed Frame",
+        price: 799.99,
+        image: "https://images.unsplash.com/photo-1505693314120-0d443867891c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      },
+      {
+        id: "prod_5",
+        name: "Dresser",
+        price: 599.99,
+        image: "https://images.unsplash.com/photo-1594131431720-7e238c45c9c8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      }
+    ]
+  },
+  "prod_7": {
+    id: "prod_7",
+    name: "Executive Desk",
+    price: 699.99,
+    image: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80",
+    description: `
+      Elevate your workspace with our premium executive desk. Designed for professionals, this desk offers a spacious work surface and ample storage to help you stay organized and productive.
+      
+      Features:
+      - Solid hardwood construction
+      - Three drawers including a file drawer
+      - Wire management system
+      - Scratch-resistant finish
+      - Adjustable levelers
+      
+      Dimensions:
+      - Width: 60 inches
+      - Depth: 30 inches
+      - Height: 30 inches
+    `,
+    category: "office",
+    rating: 4.8,
+    reviews: 62,
+    stock: 4,
+    relatedProducts: [
+      {
+        id: "prod_8",
+        name: "Office Chair",
+        price: 349.99,
+        image: "https://images.unsplash.com/photo-1580480055273-228ff5388ef8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      },
+      {
+        id: "prod_9",
+        name: "Bookshelf",
+        price: 249.99,
+        image: "https://images.unsplash.com/photo-1588279102920-cf33f141b0d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      }
+    ]
+  },
+  "prod_8": {
+    id: "prod_8",
+    name: "Office Chair",
+    price: 349.99,
+    image: "https://images.unsplash.com/photo-1580480055273-228ff5388ef8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80",
+    description: `
+      Experience ultimate comfort with our ergonomic office chair. Designed to support your body during long work hours, this chair features adjustable settings and breathable mesh for personalized comfort.
+      
+      Features:
+      - Ergonomic design
+      - Adjustable height, tilt, and armrests
+      - Breathable mesh back
+      - Lumbar support
+      - 360° swivel
+      - Durable nylon base with smooth-rolling casters
+      
+      Dimensions:
+      - Width: 27 inches
+      - Depth: 27 inches
+      - Height: 38-42 inches (adjustable)
+    `,
+    category: "office",
+    rating: 4.7,
+    reviews: 92,
+    stock: 15,
+    relatedProducts: [
+      {
+        id: "prod_7",
+        name: "Executive Desk",
+        price: 699.99,
+        image: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      },
+      {
+        id: "prod_9",
+        name: "Bookshelf",
+        price: 249.99,
+        image: "https://images.unsplash.com/photo-1588279102920-cf33f141b0d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
       }
     ]
   },
@@ -249,6 +406,202 @@ const MOCK_PRODUCTS = {
         name: "Office Chair",
         price: 349.99,
         image: "https://images.unsplash.com/photo-1580480055273-228ff5388ef8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      }
+    ]
+  },
+  "prod_10": {
+    id: "prod_10",
+    name: "Floor Lamp",
+    price: 149.99,
+    image: "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80",
+    description: `
+      Illuminate your living space with our stylish floor lamp. The adjustable design allows you to direct light where you need it, while the modern aesthetic complements a variety of interior styles.
+      
+      Features:
+      - Adjustable arm and head
+      - Brushed brass finish
+      - Fabric drum shade
+      - Foot pedal switch
+      - Uses 1 standard E26 bulb (not included)
+      
+      Dimensions:
+      - Base Diameter: 10 inches
+      - Height: 65 inches
+      - Shade Diameter: 14 inches
+    `,
+    category: "lighting",
+    rating: 4.3,
+    reviews: 27,
+    stock: 18,
+    relatedProducts: [
+      {
+        id: "prod_1",
+        name: "Modern Sofa",
+        price: 899.99,
+        image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      },
+      {
+        id: "prod_12",
+        name: "Decorative Pillows Set",
+        price: 79.99,
+        image: "https://images.unsplash.com/photo-1584013482381-b54c28cedb88?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      }
+    ]
+  },
+  "prod_11": {
+    id: "prod_11",
+    name: "Dining Table",
+    price: 699.99,
+    image: "https://images.unsplash.com/photo-1577140917170-285929fb55b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80",
+    description: `
+      Gather around our elegant dining table for memorable meals with family and friends. The timeless design features a solid wood top and sturdy base that will last for years to come.
+      
+      Features:
+      - Solid oak tabletop
+      - Strong metal base
+      - Seats 6 people comfortably
+      - Scratch-resistant finish
+      - Easy assembly
+      
+      Dimensions:
+      - Length: 72 inches
+      - Width: 36 inches
+      - Height: 30 inches
+    `,
+    category: "dining-room",
+    rating: 4.8,
+    reviews: 56,
+    stock: 7,
+    relatedProducts: [
+      {
+        id: "prod_13",
+        name: "Dining Chairs (Set of 4)",
+        price: 499.99,
+        image: "https://images.unsplash.com/photo-1551298370-9d3d53740c72?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      },
+      {
+        id: "prod_14",
+        name: "Kitchen Island",
+        price: 649.99,
+        image: "https://images.unsplash.com/photo-1565183928294-7063f23ce0f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      }
+    ]
+  },
+  "prod_12": {
+    id: "prod_12",
+    name: "Decorative Pillows Set",
+    price: 79.99,
+    image: "https://images.unsplash.com/photo-1584013482381-b54c28cedb88?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80",
+    description: `
+      Add the perfect finishing touch to your sofa, bed, or chair with our set of decorative pillows. The mix of patterns and textures creates visual interest and enhances your home's decor.
+      
+      Features:
+      - Set of 4 pillows in coordinating colors and patterns
+      - Premium fabric covers with hidden zippers
+      - Hypoallergenic polyester filling
+      - Covers are removable and machine washable
+      - Variety of sizes included
+      
+      Dimensions:
+      - 2 x 18" x 18" square pillows
+      - 1 x 12" x 20" lumbar pillow
+      - 1 x 16" x 16" square pillow
+    `,
+    category: "home-decor",
+    rating: 4.5,
+    reviews: 89,
+    stock: 25,
+    relatedProducts: [
+      {
+        id: "prod_1",
+        name: "Modern Sofa",
+        price: 899.99,
+        image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      },
+      {
+        id: "prod_10",
+        name: "Floor Lamp",
+        price: 149.99,
+        image: "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      }
+    ]
+  },
+  "prod_13": {
+    id: "prod_13",
+    name: "Dining Chairs (Set of 4)",
+    price: 499.99,
+    image: "https://images.unsplash.com/photo-1551298370-9d3d53740c72?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80",
+    description: `
+      Complete your dining set with our comfortable and stylish dining chairs. The modern design features an ergonomic seat and supportive back that will keep your guests comfortable throughout any meal.
+      
+      Features:
+      - Set of 4 matching chairs
+      - Solid wood legs with protective floor pads
+      - Upholstered in stain-resistant fabric
+      - Padded seat for extended comfort
+      - Simple assembly required
+      
+      Dimensions:
+      - Width: 20 inches
+      - Depth: 22 inches
+      - Height: 34 inches
+      - Seat Height: 18 inches
+    `,
+    category: "dining-room",
+    rating: 4.6,
+    reviews: 43,
+    stock: 9,
+    relatedProducts: [
+      {
+        id: "prod_11",
+        name: "Dining Table",
+        price: 699.99,
+        image: "https://images.unsplash.com/photo-1577140917170-285929fb55b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      },
+      {
+        id: "prod_14",
+        name: "Kitchen Island",
+        price: 649.99,
+        image: "https://images.unsplash.com/photo-1565183928294-7063f23ce0f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      }
+    ]
+  },
+  "prod_14": {
+    id: "prod_14",
+    name: "Kitchen Island",
+    price: 649.99,
+    image: "https://images.unsplash.com/photo-1565183928294-7063f23ce0f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80",
+    description: `
+      Add valuable counter space and storage to your kitchen with our versatile kitchen island. The durable butcher block top is perfect for food preparation, while the cabinets and drawers provide ample storage for kitchen essentials.
+      
+      Features:
+      - Solid wood butcher block top
+      - Two drawers and two cabinet doors
+      - Adjustable interior shelf
+      - Towel bar and spice rack
+      - Locking casters for mobility or stability
+      
+      Dimensions:
+      - Length: 40 inches
+      - Width: 24 inches
+      - Height: 36 inches
+    `,
+    category: "kitchen",
+    rating: 4.9,
+    reviews: 31,
+    stock: 6,
+    relatedProducts: [
+      {
+        id: "prod_11",
+        name: "Dining Table",
+        price: 699.99,
+        image: "https://images.unsplash.com/photo-1577140917170-285929fb55b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
+      },
+      {
+        id: "prod_13",
+        name: "Dining Chairs (Set of 4)",
+        price: 499.99,
+        image: "https://images.unsplash.com/photo-1551298370-9d3d53740c72?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80"
       }
     ]
   }

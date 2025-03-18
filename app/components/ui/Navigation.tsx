@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useState, useEffect } from "react"
 import { usePathname } from "next/navigation"
-import { ShoppingCart, Menu, X, Sun, Moon, User } from "lucide-react"
+import { ShoppingCart, Menu, X, Sun, Moon, User, ShieldAlert } from "lucide-react"
 import { useCart } from "@/app/contexts/CartContext"
 import { useAuth } from "@/app/contexts/AuthContext"
 import { ModeToggle } from "./mode-toggle"
@@ -85,6 +85,12 @@ export function Navigation() {
                   <Link href="/account/orders" className="block px-4 py-2 text-sm text-card-foreground hover:bg-primary/10">
                     My Orders
                   </Link>
+                  <Link href="/admin/dashboard" className="block px-4 py-2 text-sm text-card-foreground hover:bg-primary/10">
+                    <div className="flex items-center">
+                      <ShieldAlert className="h-4 w-4 mr-2" />
+                      Admin Portal
+                    </div>
+                  </Link>
                   <button 
                     onClick={logout}
                     className="block w-full text-left px-4 py-2 text-sm text-card-foreground hover:bg-primary/10"
@@ -162,6 +168,15 @@ export function Navigation() {
                   className="py-2 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   My Orders
+                </Link>
+                <Link 
+                  href="/admin/dashboard" 
+                  className="py-2 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <div className="flex items-center">
+                    <ShieldAlert className="h-4 w-4 mr-2" />
+                    Admin Portal
+                  </div>
                 </Link>
                 <button 
                   onClick={logout}

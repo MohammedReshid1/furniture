@@ -4,12 +4,10 @@ import { useState, useEffect } from "react"
 import React from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
-import { ArrowLeft, Copy, Package, Truck, CheckCircle, Clock, AlertCircle, Calendar, CreditCard } from "lucide-react"
+import { ArrowLeft, Check, Clock, ChevronRight, Copy, Truck, XCircle } from "lucide-react"
 import { Button } from "@/app/components/ui/button"
 import { Skeleton } from "@/app/components/ui/skeleton"
 import { useToast } from "@/app/contexts/ToastContext"
-import { useAuth } from "@/app/contexts/AuthContext"
 
 interface OrderItem {
   _id: string
@@ -44,56 +42,47 @@ interface OrderParams {
 }
 
 interface OrderDetailPageProps {
-  params: OrderParams
+  params: Promise<OrderParams>
 }
 
 export default function OrderDetailPage({ params: paramsPromise }: OrderDetailPageProps) {
-  // Unwrap the params
-  const params = paramsPromise as OrderParams
-  const router = useRouter()
+  // Properly unwrap the params with React.use()
+  const params = React.use(paramsPromise);
+  const orderId = params.id;
+  
   const { showToast } = useToast()
   const [order, setOrder] = useState<Order | null>(null)
   const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [notFound, setNotFound] = useState(false)
   
   useEffect(() => {
     const checkAuth = async () => {
-      // In a real app, check if user is authenticated
-      const isAuthenticated = true
-      
-      if (!isAuthenticated) {
-        router.push("/login?redirect=/account/orders")
-        return false
-      }
-      
+      // In a real app, this would check if the user is authenticated
+      // If not, redirect to login
+      // For this mockup, we'll just proceed
       return true
     }
     
     const fetchOrderDetails = async () => {
       setIsLoading(true)
-      setError(null)
+      setNotFound(false)
       
       try {
+        // First check if user is authenticated
         const isAuth = await checkAuth()
         if (!isAuth) return
         
-        // In a real app, this would be an API call
-        await new Promise(resolve => setTimeout(resolve, 1200))
+        // Simulate API call delay
+        await new Promise(resolve => setTimeout(resolve, 1000))
         
-        // If order ID doesn't match expected pattern, simulate not found
-        if (!/^order_\d+$/.test(params.id) && params.id !== "123") {
-          setError("Order not found")
-          setIsLoading(false)
-          return
-        }
-        
-        // Mock order data
+        // In a real app, this would be an API call to fetch the order
+        // For now, we'll use mock data
         const mockOrder: Order = {
-          _id: params.id,
-          orderNumber: `ORD-${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}`,
+          _id: orderId,
+          orderNumber: `ORD-${Math.floor(100000 + Math.random() * 900000)}`,
           date: new Date(Date.now() - Math.floor(Math.random() * 30) * 24 * 60 * 60 * 1000).toISOString(),
-          total: 1349.97,
-          shippingCost: 15.00,
+          total: 1249.97,
+          shippingCost: 50,
           status: ["pending", "processing", "shipped", "delivered", "cancelled"][Math.floor(Math.random() * 5)] as Order["status"],
           items: [
             {
@@ -112,322 +101,327 @@ export default function OrderDetailPage({ params: paramsPromise }: OrderDetailPa
             },
             {
               _id: "item_3",
-              name: "Floor Lamp",
-              price: 149.99,
+              name: "Decorative Pillows Set",
+              price: 49.99,
               quantity: 1,
-              image: "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80"
+              image: "https://images.unsplash.com/photo-1584013482381-b54c28cedb88?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80"
             }
           ],
           shippingAddress: {
             addressLine1: "123 Main Street",
             addressLine2: "Apt 4B",
-            city: "Brooklyn",
-            state: "NY",
-            postalCode: "11201",
+            city: "Anytown",
+            state: "CA",
+            postalCode: "12345",
             country: "United States"
-          },
-          trackingNumber: "TRK-12345678",
-          estimatedDelivery: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
+          }
         }
         
+        // Add tracking number and estimated delivery for shipped or delivered orders
+        if (mockOrder.status === "shipped" || mockOrder.status === "delivered") {
+          mockOrder.trackingNumber = `TRK${Math.floor(1000000000 + Math.random() * 9000000000)}`
+          mockOrder.estimatedDelivery = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString()
+        }
+        
+        // Set the order data
         setOrder(mockOrder)
       } catch (error) {
-        console.error("Error fetching order details:", error)
-        setError("Failed to load order details")
+        console.error('Error fetching order details:', error)
+        showToast({
+          title: "Error",
+          description: "Failed to load order details. Please try again later.",
+          type: "error"
+        })
+        setNotFound(true)
       } finally {
         setIsLoading(false)
       }
     }
     
     fetchOrderDetails()
-  }, [params.id, router, showToast])
+  }, [orderId, showToast])
   
   const getStatusIcon = (status: Order["status"]) => {
     switch (status) {
       case "pending":
-        return <Clock className="h-5 w-5 text-yellow-500" />
+        return <Clock className="h-5 w-5 text-amber-500" />
       case "processing":
-        return <Package className="h-5 w-5 text-blue-500" />
+        return <Clock className="h-5 w-5 text-blue-500" />
       case "shipped":
-        return <Truck className="h-5 w-5 text-purple-500" />
+        return <Truck className="h-5 w-5 text-primary" />
       case "delivered":
-        return <CheckCircle className="h-5 w-5 text-green-500" />
+        return <Check className="h-5 w-5 text-green-500" />
       case "cancelled":
-        return <AlertCircle className="h-5 w-5 text-red-500" />
-      default:
-        return <Clock className="h-5 w-5 text-gray-500" />
+        return <XCircle className="h-5 w-5 text-destructive" />
     }
   }
   
   const getStatusText = (status: Order["status"]) => {
     switch (status) {
       case "pending":
-        return "Payment confirmed, preparing your order"
+        return "Pending"
       case "processing":
-        return "Your order is being processed"
+        return "Processing"
       case "shipped":
-        return "Your order is on the way"
+        return "Shipped"
       case "delivered":
-        return "Your order has been delivered"
+        return "Delivered"
       case "cancelled":
-        return "Your order has been cancelled"
+        return "Cancelled"
     }
   }
   
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
+    const date = new Date(dateString)
+    return new Intl.DateTimeFormat('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    }).format(date)
   }
   
   const copyToClipboard = (text: string, message: string) => {
-    navigator.clipboard.writeText(text).then(() => {
-      showToast({
-        title: "Copied!",
-        description: message,
-        type: "success"
-      })
-    }).catch(err => {
-      console.error('Could not copy text: ', err)
+    navigator.clipboard.writeText(text)
+    showToast({
+      title: "Copied!",
+      description: message,
+      type: "success"
     })
   }
   
   const calculateSubtotal = () => {
     if (!order) return 0
-    return order.items.reduce((total, item) => total + (item.price * item.quantity), 0)
+    return order.items.reduce((sum, item) => sum + (item.price * item.quantity), 0)
   }
   
   if (isLoading) {
     return (
-      <div className="container max-w-4xl mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8">
         <div className="mb-6">
-          <div className="flex items-center mb-6">
-            <Skeleton className="h-10 w-10 rounded-full" />
-            <Skeleton className="h-8 w-48 ml-2" />
+          <Link href="/account/orders" className="inline-flex items-center text-muted-foreground hover:text-foreground">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Orders
+          </Link>
+        </div>
+        
+        <div className="space-y-6">
+          <div className="flex flex-col md:flex-row justify-between items-start gap-4">
+            <Skeleton className="h-10 w-48" />
+            <Skeleton className="h-8 w-36" />
           </div>
           
-          <Skeleton className="h-24 w-full rounded-lg mb-6" />
-          
-          <Skeleton className="h-16 w-full rounded-lg mb-4" />
-          <Skeleton className="h-16 w-full rounded-lg mb-4" />
-          <Skeleton className="h-16 w-full rounded-lg mb-8" />
+          <div className="border border-border rounded-lg p-6 space-y-6">
+            <Skeleton className="h-8 w-48 mb-4" />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="flex gap-4">
+                  <Skeleton className="h-20 w-20 rounded" />
+                  <div className="flex-1 space-y-2">
+                    <Skeleton className="h-5 w-32" />
+                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-4 w-16" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Skeleton className="h-40 w-full rounded-lg" />
-            <Skeleton className="h-40 w-full rounded-lg" />
+            <div className="border border-border rounded-lg p-6">
+              <Skeleton className="h-6 w-40 mb-4" />
+              <div className="space-y-3">
+                <Skeleton className="h-5 w-full" />
+                <Skeleton className="h-5 w-32" />
+                <Skeleton className="h-5 w-48" />
+                <Skeleton className="h-5 w-36" />
+              </div>
+            </div>
+            
+            <div className="border border-border rounded-lg p-6">
+              <Skeleton className="h-6 w-40 mb-4" />
+              <div className="space-y-3">
+                <div className="flex justify-between">
+                  <Skeleton className="h-5 w-24" />
+                  <Skeleton className="h-5 w-20" />
+                </div>
+                <div className="flex justify-between">
+                  <Skeleton className="h-5 w-24" />
+                  <Skeleton className="h-5 w-20" />
+                </div>
+                <div className="flex justify-between">
+                  <Skeleton className="h-5 w-32" />
+                  <Skeleton className="h-5 w-24" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     )
   }
   
-  if (error) {
+  if (notFound || !order) {
     return (
-      <div className="container max-w-4xl mx-auto px-4 py-8">
-        <Button 
-          variant="ghost" 
-          className="mb-6 flex items-center text-muted-foreground hover:text-foreground"
-          onClick={() => router.back()}
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to orders
-        </Button>
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-6">
+          <Link href="/account/orders" className="inline-flex items-center text-muted-foreground hover:text-foreground">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Orders
+          </Link>
+        </div>
         
-        <div className="bg-card border border-border rounded-lg p-6 text-center">
-          <div className="text-4xl mb-4">😢</div>
-          <h2 className="text-xl font-semibold mb-2">Order Not Found</h2>
+        <div className="text-center py-12">
+          <h2 className="text-2xl font-bold mb-4">Order Not Found</h2>
           <p className="text-muted-foreground mb-6">
-            We couldn't find the order you're looking for. It may have been removed or the link is invalid.
+            The order you're looking for doesn't exist or you don't have permission to view it.
           </p>
           <Button asChild>
-            <Link href="/account/orders">View All Orders</Link>
+            <Link href="/account/orders">View Your Orders</Link>
           </Button>
         </div>
       </div>
     )
   }
   
-  if (!order) {
-    return null;
-  }
-  
   return (
-    <div className="container max-w-4xl mx-auto px-4 py-8">
-      <Button 
-        variant="ghost" 
-        className="mb-6 flex items-center text-muted-foreground hover:text-foreground"
-        onClick={() => router.back()}
-      >
-        <ArrowLeft className="mr-2 h-4 w-4" />
-        Back to orders
-      </Button>
+    <div className="container mx-auto px-4 py-8">
+      <div className="mb-6">
+        <Link href="/account/orders" className="inline-flex items-center text-muted-foreground hover:text-foreground transition-colors">
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to Orders
+        </Link>
+      </div>
       
       <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-6">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Order Details</h1>
-          <div className="flex items-center mt-2">
-            <p className="text-muted-foreground mr-2">Order #{order.orderNumber}</p>
+          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
+            Order #{order.orderNumber} 
             <button 
-              onClick={() => copyToClipboard(order.orderNumber, "Order number copied to clipboard")}
-              className="text-primary hover:text-primary/80"
+              onClick={() => copyToClipboard(order.orderNumber, "Order number copied to clipboard!")}
+              className="text-muted-foreground hover:text-foreground"
               aria-label="Copy order number"
             >
               <Copy className="h-4 w-4" />
             </button>
-          </div>
-          <p className="text-muted-foreground mt-1">Placed on {formatDate(order.date)}</p>
-        </div>
-        <div className="flex items-center px-4 py-2 rounded-full border border-border bg-card">
-          {getStatusIcon(order.status)}
-          <span className="ml-2 font-medium capitalize">{order.status}</span>
-        </div>
-      </div>
-      
-      {/* Order Status */}
-      <div className="bg-card border border-border rounded-lg p-6 mb-8">
-        <div className="flex items-center">
-          {getStatusIcon(order.status)}
-          <div className="ml-4">
-            <h2 className="font-semibold text-foreground capitalize">{order.status}</h2>
-            <p className="text-muted-foreground">{getStatusText(order.status)}</p>
-          </div>
+          </h1>
+          <p className="text-muted-foreground">
+            Placed on {formatDate(order.date)}
+          </p>
         </div>
         
-        {(order.status === "shipped" || order.status === "delivered") && order.trackingNumber && (
-          <div className="mt-4 pt-4 border-t border-border">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-medium text-foreground">Tracking Number</h3>
-                <div className="flex items-center mt-1">
-                  <p className="text-muted-foreground mr-2">{order.trackingNumber}</p>
-                  <button 
-                    onClick={() => copyToClipboard(order.trackingNumber!, "Tracking number copied to clipboard")}
-                    className="text-primary hover:text-primary/80"
-                    aria-label="Copy tracking number"
-                  >
-                    <Copy className="h-4 w-4" />
-                  </button>
-                </div>
-              </div>
-              {order.estimatedDelivery && (
-                <div className="text-right">
-                  <h3 className="font-medium text-foreground">Estimated Delivery</h3>
-                  <p className="text-muted-foreground mt-1">{formatDate(order.estimatedDelivery)}</p>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
+        <div className="flex items-center px-4 py-2 rounded-full border border-border bg-card">
+          {getStatusIcon(order.status)}
+          <span className="ml-2 font-medium">{getStatusText(order.status)}</span>
+        </div>
       </div>
       
       {/* Order Items */}
-      <div className="bg-card border border-border rounded-lg overflow-hidden mb-8">
-        <div className="p-4 border-b border-border">
-          <h2 className="font-semibold text-lg">Items in Your Order</h2>
-        </div>
-        
-        <div className="divide-y divide-border">
+      <div className="border border-border rounded-lg p-6 mb-6 bg-card">
+        <h2 className="text-xl font-semibold mb-6">Order Items</h2>
+        <div className="grid grid-cols-1 gap-6">
           {order.items.map((item) => (
-            <div key={item._id} className="p-4 flex flex-col sm:flex-row items-start gap-4">
-              <div className="relative h-20 w-20 rounded-md overflow-hidden bg-muted flex-shrink-0">
-                <Image
-                  src={item.image}
-                  alt={item.name}
-                  fill
+            <div key={item._id} className="flex flex-col sm:flex-row gap-4">
+              <div className="relative w-full sm:w-24 h-24 rounded-md overflow-hidden bg-muted">
+                <Image 
+                  src={item.image} 
+                  alt={item.name} 
+                  fill 
                   className="object-cover"
                 />
               </div>
               <div className="flex-1">
-                <h3 className="font-medium text-foreground">{item.name}</h3>
-                <p className="text-muted-foreground text-sm">Quantity: {item.quantity}</p>
-              </div>
-              <div className="text-right mt-2 sm:mt-0">
-                <p className="font-medium text-foreground">${item.price.toFixed(2)}</p>
+                <Link 
+                  href={`/products/${item._id}`}
+                  className="text-lg font-medium hover:text-primary transition-colors"
+                >
+                  {item.name}
+                </Link>
+                <div className="flex justify-between mt-1">
+                  <p className="text-muted-foreground">Qty: {item.quantity}</p>
+                  <p className="font-medium text-foreground">${(item.price * item.quantity).toFixed(2)}</p>
+                </div>
+                {order.status === "delivered" && (
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="mt-2"
+                    onClick={() => {
+                      showToast({
+                        title: "Review coming soon",
+                        description: "The review feature will be available soon!",
+                        type: "info"
+                      })
+                    }}
+                  >
+                    Write a Review
+                  </Button>
+                )}
               </div>
             </div>
           ))}
         </div>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Shipping Information */}
-        <div className="bg-card border border-border rounded-lg overflow-hidden">
-          <div className="p-4 border-b border-border">
-            <h2 className="font-semibold text-lg">Shipping Information</h2>
-          </div>
-          <div className="p-4">
-            <p className="font-medium">{order.shippingAddress.addressLine1}</p>
-            {order.shippingAddress.addressLine2 && (
-              <p>{order.shippingAddress.addressLine2}</p>
-            )}
+        <div className="border border-border rounded-lg p-6 bg-card">
+          <h2 className="text-xl font-semibold mb-4">Shipping Information</h2>
+          <div className="space-y-2">
             <p>
-              {order.shippingAddress.city}, {order.shippingAddress.state} {order.shippingAddress.postalCode}
+              {order.shippingAddress.addressLine1}<br />
+              {order.shippingAddress.addressLine2 && (
+                <>
+                  {order.shippingAddress.addressLine2}<br />
+                </>
+              )}
+              {order.shippingAddress.city}, {order.shippingAddress.state} {order.shippingAddress.postalCode}<br />
+              {order.shippingAddress.country}
             </p>
-            <p>{order.shippingAddress.country}</p>
+            
+            {order.trackingNumber && (
+              <div className="mt-4 pt-4 border-t border-border">
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Tracking Number:</span>
+                  <span className="font-medium flex items-center">
+                    {order.trackingNumber}
+                    <button 
+                      onClick={() => copyToClipboard(order.trackingNumber!, "Tracking number copied to clipboard!")}
+                      className="ml-1 text-muted-foreground hover:text-foreground"
+                      aria-label="Copy tracking number"
+                    >
+                      <Copy className="h-4 w-4" />
+                    </button>
+                  </span>
+                </div>
+                {order.estimatedDelivery && (
+                  <div className="flex items-center justify-between mt-2">
+                    <span className="text-muted-foreground">Estimated Delivery:</span>
+                    <span className="font-medium">{formatDate(order.estimatedDelivery)}</span>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
         
         {/* Order Summary */}
-        <div className="bg-card border border-border rounded-lg overflow-hidden">
-          <div className="p-4 border-b border-border">
-            <h2 className="font-semibold text-lg">Order Summary</h2>
-          </div>
-          <div className="p-4">
-            <div className="flex justify-between mb-2">
+        <div className="border border-border rounded-lg p-6 bg-card">
+          <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
+          <div className="space-y-3">
+            <div className="flex justify-between">
               <span className="text-muted-foreground">Subtotal</span>
               <span>${calculateSubtotal().toFixed(2)}</span>
             </div>
-            <div className="flex justify-between mb-2">
+            <div className="flex justify-between">
               <span className="text-muted-foreground">Shipping</span>
               <span>${order.shippingCost.toFixed(2)}</span>
             </div>
-            <div className="flex justify-between font-medium pt-4 border-t border-border mt-4">
-              <span>Total</span>
-              <span>${order.total.toFixed(2)}</span>
+            <div className="pt-3 mt-3 border-t border-border flex justify-between">
+              <span className="font-medium">Total</span>
+              <span className="font-bold text-lg">${order.total.toFixed(2)}</span>
             </div>
           </div>
         </div>
-      </div>
-      
-      {/* Action Buttons */}
-      <div className="mt-8 flex flex-wrap gap-4 justify-center md:justify-start">
-        {order.status === "delivered" && (
-          <Button onClick={() => router.push(`/account/orders/${order._id}/review`)}>
-            Leave a Review
-          </Button>
-        )}
-        
-        {(order.status === "pending" || order.status === "processing") && (
-          <Button 
-            variant="destructive"
-            onClick={() => {
-              showToast({
-                title: "Order Cancelled",
-                description: "Your order has been cancelled successfully.",
-                type: "success"
-              })
-              // In a real app, make an API call to cancel the order
-              setOrder({...order, status: "cancelled"})
-            }}
-          >
-            Cancel Order
-          </Button>
-        )}
-        
-        <Button 
-          variant="outline"
-          onClick={() => {
-            showToast({
-              title: "Coming Soon",
-              description: "This feature is not available yet.",
-              type: "info"
-            })
-          }}
-        >
-          Need Help?
-        </Button>
       </div>
     </div>
   )
