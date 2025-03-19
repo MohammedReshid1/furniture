@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { 
@@ -26,6 +26,11 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const pathname = usePathname()
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
   
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setIsMobileNavOpen(false)
+  }, [pathname])
+  
   const navigation = [
     { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
     { name: 'Products', href: '/admin/products', icon: Package },
@@ -34,7 +39,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     { name: 'Settings', href: '/admin/settings', icon: Settings },
   ]
   
-  const NavLink = ({ href, children, icon: Icon }: { href?: string | null; children: React.ReactNode; icon: any }) => {
+  const NavLink = ({ href, children, icon: Icon, onClick }: { href?: string | null; children: React.ReactNode; icon: any; onClick?: () => void }) => {
     const isActive = href ? (pathname === href || pathname?.startsWith(`${href}/`)) : false
     
     // If href is undefined, null, or empty string, render a non-clickable element
@@ -55,6 +60,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             ? 'bg-primary/10 text-primary' 
             : 'text-muted-foreground hover:bg-muted hover:text-foreground'
           }`}
+        onClick={onClick}
       >
         <Icon className="h-4 w-4" />
         {children}
@@ -87,6 +93,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 key={item.name} 
                 href={item.href} 
                 icon={item.icon}
+                onClick={() => setIsMobileNavOpen(false)}
               >
                 {item.name}
               </NavLink>
@@ -148,7 +155,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         
         {/* Main content */}
         <main className="flex-1 overflow-auto">
-          <div className="container py-6">
+          <div className="container py-6 pb-20 md:pb-6">
             {children}
           </div>
         </main>
