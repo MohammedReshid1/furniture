@@ -19,8 +19,43 @@ export default function NewProductPage() {
   const { showToast } = useToast()
   const [isSaving, setIsSaving] = useState(false)
   
+  // Define the ProductData type
+  type ProductData = {
+    name: string;
+    description: string;
+    price: number;
+    salePrice: null | number;
+    category: string;
+    status: string;
+    stock: number;
+    images: any[];
+    tags: string[];
+    dimensions: {
+      width: number;
+      depth: number;
+      height: number;
+    };
+    weight: number;
+    features: string[];
+    options: {
+      hasColors: boolean;
+      colors: string[];
+      selectedColor: string;
+    };
+    metadata: {
+      sku: string;
+      barcode: string;
+      vendor: string;
+    };
+    seo: {
+      title: string;
+      description: string;
+      keywords: string;
+    };
+  }
+  
   // Initial empty product data
-  const [productData, setProductData] = useState({
+  const [productData, setProductData] = useState<ProductData>({
     name: "",
     description: "",
     price: 0,

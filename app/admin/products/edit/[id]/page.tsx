@@ -22,8 +22,48 @@ export default function ProductEditPage() {
   const { showToast } = useToast()
   const [isSaving, setIsSaving] = useState(false)
   
+  // Define the ProductData type
+  type ProductData = {
+    id: string;
+    name: string;
+    description: string;
+    price: number;
+    salePrice: null | number;
+    category: string;
+    status: string;
+    stock: number;
+    images: Array<{
+      id: string;
+      url: string;
+      isMain: boolean;
+    }>;
+    tags: string[];
+    dimensions: {
+      width: number;
+      depth: number;
+      height: number;
+    };
+    weight: number;
+    features: string[];
+    options: {
+      hasColors: boolean;
+      colors: string[];
+      selectedColor: string;
+    };
+    metadata: {
+      sku: string;
+      barcode: string;
+      vendor: string;
+    };
+    seo: {
+      title: string;
+      description: string;
+      keywords: string;
+    };
+  }
+  
   // In a real app, you would fetch the product data from an API
-  const [productData, setProductData] = useState({
+  const [productData, setProductData] = useState<ProductData>({
     id: productId,
     name: "Modern Sofa",
     description: "A stylish and comfortable sofa perfect for modern living rooms.",
