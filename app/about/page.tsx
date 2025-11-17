@@ -7,83 +7,85 @@ import { ArrowRight, Award, Globe, Users, MapPin, Mail, Phone } from "lucide-rea
 
 export default function AboutPage() {
   return (
-    <div className="container mx-auto px-4 py-16">
-      {/* Hero Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
-        <div>
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">About FurnishHome</h1>
-          <p className="text-xl text-muted-foreground mb-8">
-            We're on a mission to help you create spaces that feel like home. 
-            Quality furniture, thoughtful design, and exceptional customer service - 
-            that's the FurnishHome difference.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <Button asChild size="lg">
-              <Link href="/categories/all">
-                Browse Products <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-            <Button variant="outline" size="lg" asChild>
-              <Link href="/contact">
-                Contact Us
-              </Link>
-            </Button>
+    <div className="bg-texture">
+      <div className="container mx-auto px-4 py-20">
+        {/* Hero Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-32">
+          <div className="animate-fade-in-up">
+            <h1 className="mb-8">About Furniture Haven</h1>
+            <p className="text-xl md:text-2xl text-muted-foreground mb-10 leading-relaxed font-light">
+              We're on a mission to help you create spaces that feel like home.
+              Quality furniture, thoughtful design, and exceptional customer service -
+              that's the Furniture Haven difference.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Button asChild size="lg" className="hover:shadow-lg hover:scale-105 transition-all">
+                <Link href="/categories/all">
+                  Browse Products <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+              <Button variant="outline" size="lg" asChild className="hover:bg-primary/5">
+                <Link href="/contact">
+                  Contact Us
+                </Link>
+              </Button>
+            </div>
+          </div>
+          <div className="relative h-[500px] rounded-3xl overflow-hidden shadow-2xl hover-lift animate-fade-in-up stagger-1">
+            <Image
+              src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80"
+              alt="Modern living room with Furniture Haven furniture"
+              fill
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
           </div>
         </div>
-        <div className="relative h-[400px] rounded-xl overflow-hidden">
-          <Image 
-            src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80" 
-            alt="Modern living room with FurnishHome furniture"
-            fill
-            className="object-cover"
-          />
-        </div>
-      </div>
       
-      {/* Our Story */}
-      <div className="mb-24">
-        <div className="max-w-3xl mx-auto text-center mb-16">
-          <h2 className="text-3xl font-bold text-foreground mb-4">Our Story</h2>
-          <div className="w-20 h-1 bg-primary mx-auto mb-8"></div>
-          <p className="text-lg text-muted-foreground">
-            FurnishHome was founded in 2010 with a simple idea: furniture should be both beautiful and functional.
-            What started as a small family business has grown into a beloved brand, but our commitment to quality and 
-            customer satisfaction remains at the heart of everything we do.
-          </p>
+        {/* Our Story */}
+        <div className="mb-32">
+          <div className="max-w-4xl mx-auto text-center mb-20">
+            <h2 className="mb-6">Our Story</h2>
+            <div className="w-24 h-1.5 bg-gradient-to-r from-primary via-accent to-secondary mx-auto mb-10 rounded-full"></div>
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+              Furniture Haven was founded in 2010 with a simple idea: furniture should be both beautiful and functional.
+              What started as a small family business has grown into a beloved brand, but our commitment to quality and
+              customer satisfaction remains at the heart of everything we do.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div className="bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl p-10 hover-lift">
+              <div className="bg-gradient-to-br from-primary to-accent p-4 rounded-2xl w-fit mb-8 shadow-lg">
+                <Award className="h-10 w-10 text-white" />
+              </div>
+              <h3 className="text-2xl font-semibold mb-4">Quality Craftsmanship</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                We partner with skilled artisans and responsible manufacturers who share our commitment to quality, sustainability, and fair labor practices.
+              </p>
+            </div>
+
+            <div className="bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl p-10 hover-lift">
+              <div className="bg-gradient-to-br from-secondary to-primary p-4 rounded-2xl w-fit mb-8 shadow-lg">
+                <Globe className="h-10 w-10 text-white" />
+              </div>
+              <h3 className="text-2xl font-semibold mb-4">Sustainable Practices</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                We're committed to reducing our environmental footprint by sourcing sustainable materials and implementing eco-friendly packaging and shipping practices.
+              </p>
+            </div>
+
+            <div className="bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl p-10 hover-lift">
+              <div className="bg-gradient-to-br from-accent to-secondary p-4 rounded-2xl w-fit mb-8 shadow-lg">
+                <Users className="h-10 w-10 text-white" />
+              </div>
+              <h3 className="text-2xl font-semibold mb-4">Customer-First Approach</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                Our team is dedicated to providing exceptional service at every step, from browsing our collection to after-sale support.
+              </p>
+            </div>
+          </div>
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-card border border-border rounded-xl p-8">
-            <div className="bg-primary/10 p-3 rounded-full w-fit mb-6">
-              <Award className="h-8 w-8 text-primary" />
-            </div>
-            <h3 className="text-xl font-semibold mb-3">Quality Craftsmanship</h3>
-            <p className="text-muted-foreground">
-              We partner with skilled artisans and responsible manufacturers who share our commitment to quality, sustainability, and fair labor practices.
-            </p>
-          </div>
-          
-          <div className="bg-card border border-border rounded-xl p-8">
-            <div className="bg-primary/10 p-3 rounded-full w-fit mb-6">
-              <Globe className="h-8 w-8 text-primary" />
-            </div>
-            <h3 className="text-xl font-semibold mb-3">Sustainable Practices</h3>
-            <p className="text-muted-foreground">
-              We're committed to reducing our environmental footprint by sourcing sustainable materials and implementing eco-friendly packaging and shipping practices.
-            </p>
-          </div>
-          
-          <div className="bg-card border border-border rounded-xl p-8">
-            <div className="bg-primary/10 p-3 rounded-full w-fit mb-6">
-              <Users className="h-8 w-8 text-primary" />
-            </div>
-            <h3 className="text-xl font-semibold mb-3">Customer-First Approach</h3>
-            <p className="text-muted-foreground">
-              Our team is dedicated to providing exceptional service at every step, from browsing our collection to after-sale support.
-            </p>
-          </div>
-        </div>
-      </div>
       
       {/* Our Team */}
       <div className="mb-24">
@@ -119,18 +121,19 @@ export default function AboutPage() {
               image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=500&q=80"
             }
           ].map((member, index) => (
-            <div key={index} className="bg-card border border-border rounded-xl overflow-hidden">
-              <div className="relative h-64 w-full">
-                <Image 
-                  src={member.image} 
-                  alt={member.name} 
+            <div key={index} className="bg-card border border-border/50 rounded-2xl overflow-hidden hover-lift group">
+              <div className="relative h-72 w-full overflow-hidden">
+                <Image
+                  src={member.image}
+                  alt={member.name}
                   fill
-                  className="object-cover"
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
-              <div className="p-6">
-                <h3 className="text-lg font-semibold">{member.name}</h3>
-                <p className="text-muted-foreground">{member.role}</p>
+              <div className="p-7">
+                <h3 className="text-xl font-semibold mb-1">{member.name}</h3>
+                <p className="text-muted-foreground text-base">{member.role}</p>
               </div>
             </div>
           ))}
@@ -189,23 +192,27 @@ export default function AboutPage() {
         </div>
       </div>
       
-      {/* CTA Section */}
-      <div className="bg-primary/10 rounded-2xl p-12 text-center">
-        <h2 className="text-3xl font-bold text-foreground mb-4">Ready to Transform Your Space?</h2>
-        <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-          Browse our collection of thoughtfully designed furniture pieces or visit one of our showrooms to experience the FurnishHome difference.
-        </p>
-        <div className="flex flex-wrap gap-4 justify-center">
-          <Button size="lg" asChild>
-            <Link href="/categories/all">
-              Shop Now <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
-          <Button variant="outline" size="lg" asChild>
-            <Link href="/contact">
-              Contact Us
-            </Link>
-          </Button>
+        {/* CTA Section */}
+        <div className="bg-gradient-to-br from-primary to-accent rounded-3xl p-14 md:p-20 text-center relative overflow-hidden shadow-2xl">
+          <div className="absolute inset-0 bg-grain opacity-20" />
+          <div className="relative z-10">
+            <h2 className="text-white mb-6">Ready to Transform Your Space?</h2>
+            <p className="text-xl text-white/90 max-w-3xl mx-auto mb-10 font-light leading-relaxed">
+              Browse our collection of thoughtfully designed furniture pieces or visit one of our showrooms to experience the Furniture Haven difference.
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Button size="lg" asChild variant="secondary" className="bg-white text-primary hover:bg-white/90 hover:scale-105 transition-all shadow-xl">
+                <Link href="/categories/all">
+                  Shop Now <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+              <Button variant="outline" size="lg" asChild className="border-white/30 text-white hover:bg-white/10 hover:scale-105 transition-all">
+                <Link href="/contact">
+                  Contact Us
+                </Link>
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

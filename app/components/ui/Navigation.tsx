@@ -35,26 +35,30 @@ export function Navigation() {
   ]
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-40 w-full border-b border-border/50 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70 shadow-sm">
       <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-18 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="text-xl font-bold text-foreground">
+          <Link href="/" className="text-2xl font-bold text-foreground hover:text-primary transition-colors duration-300 tracking-tight">
             Furniture Haven
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-10">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "text-muted-foreground hover:text-foreground transition-colors duration-200",
-                  pathname === link.href && "text-foreground font-medium"
+                  "text-base font-medium text-muted-foreground hover:text-primary transition-all duration-300 relative group",
+                  pathname === link.href && "text-primary"
                 )}
               >
                 {link.label}
+                <span className={cn(
+                  "absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full",
+                  pathname === link.href && "w-full"
+                )} />
               </Link>
             ))}
           </nav>
@@ -63,11 +67,11 @@ export function Navigation() {
           <div className="hidden md:flex items-center space-x-4">
             <ModeToggle />
             
-            <Link href="/cart" className="relative">
-              <Button variant="ghost" size="icon" aria-label="Cart">
-                <ShoppingCart className="h-5 w-5" />
+            <Link href="/cart" className="relative group">
+              <Button variant="ghost" size="icon" aria-label="Cart" className="hover:bg-primary/10">
+                <ShoppingCart className="h-5 w-5 group-hover:text-primary transition-colors" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 bg-gradient-to-br from-primary to-accent text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-lg animate-scale-in">
                     {cartCount}
                   </span>
                 )}

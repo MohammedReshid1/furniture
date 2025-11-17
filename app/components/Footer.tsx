@@ -22,24 +22,24 @@ export default function Footer() {
   }
   
   return (
-    <footer className="bg-card border-t border-border text-card-foreground mt-auto">
+    <footer className="bg-card/50 backdrop-blur-sm border-t border-border/50 text-card-foreground mt-auto">
       {/* Desktop Footer */}
-      <div className="container mx-auto px-4 py-8 md:py-12">
-        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="container mx-auto px-4 py-12 md:py-16">
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Company Information */}
           <div>
-            <Link href="/" className="flex items-center mb-4">
-              <div className="relative w-10 h-10 mr-2">
-                <Image 
-                  src="https://images.unsplash.com/photo-1540932239986-30128078f3c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200&q=80" 
-                  alt="Furniture Haven Logo" 
+            <Link href="/" className="flex items-center mb-5 group">
+              <div className="relative w-12 h-12 mr-3 overflow-hidden rounded-2xl shadow-lg group-hover:shadow-xl transition-shadow">
+                <Image
+                  src="https://images.unsplash.com/photo-1540932239986-30128078f3c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200&q=80"
+                  alt="Furniture Haven Logo"
                   fill
-                  className="rounded-full object-cover"
+                  className="object-cover group-hover:scale-110 transition-transform duration-300"
                 />
               </div>
-              <span className="text-xl font-bold">Furniture Haven</span>
+              <span className="text-2xl font-bold group-hover:text-primary transition-colors">Furniture Haven</span>
             </Link>
-            <p className="text-muted-foreground mb-4">
+            <p className="text-muted-foreground mb-6 leading-relaxed">
               Modern furniture for modern living. Quality pieces designed for comfort, style, and lasting value.
             </p>
             <div className="space-y-2">
@@ -60,35 +60,35 @@ export default function Footer() {
           
           {/* Quick Links */}
           <div>
-            <h3 className="font-bold text-lg mb-4">Quick Links</h3>
-            <ul className="space-y-2">
+            <h3 className="font-bold text-xl mb-5">Quick Links</h3>
+            <ul className="space-y-3">
               <li>
-                <Link href="/categories/all" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/categories/all" className="text-muted-foreground hover:text-primary hover:translate-x-1 inline-block transition-all duration-300">
                   All Products
                 </Link>
               </li>
               <li>
-                <Link href="/categories/living-room" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/categories/living-room" className="text-muted-foreground hover:text-primary hover:translate-x-1 inline-block transition-all duration-300">
                   Living Room
                 </Link>
               </li>
               <li>
-                <Link href="/categories/bedroom" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/categories/bedroom" className="text-muted-foreground hover:text-primary hover:translate-x-1 inline-block transition-all duration-300">
                   Bedroom
                 </Link>
               </li>
               <li>
-                <Link href="/categories/kitchen" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/categories/kitchen" className="text-muted-foreground hover:text-primary hover:translate-x-1 inline-block transition-all duration-300">
                   Kitchen
                 </Link>
               </li>
               <li>
-                <Link href="/categories/office" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/categories/office" className="text-muted-foreground hover:text-primary hover:translate-x-1 inline-block transition-all duration-300">
                   Office
                 </Link>
               </li>
               <li>
-                <Link href="/sale" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/sale" className="text-muted-foreground hover:text-primary hover:translate-x-1 inline-block transition-all duration-300">
                   Sale
                 </Link>
               </li>
@@ -97,35 +97,35 @@ export default function Footer() {
           
           {/* Customer Service */}
           <div>
-            <h3 className="font-bold text-lg mb-4">Customer Service</h3>
-            <ul className="space-y-2">
+            <h3 className="font-bold text-xl mb-5">Customer Service</h3>
+            <ul className="space-y-3">
               <li>
-                <Link href="/account" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/account" className="text-muted-foreground hover:text-primary hover:translate-x-1 inline-block transition-all duration-300">
                   My Account
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/about" className="text-muted-foreground hover:text-primary hover:translate-x-1 inline-block transition-all duration-300">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/contact" className="text-muted-foreground hover:text-primary hover:translate-x-1 inline-block transition-all duration-300">
                   Contact Us
                 </Link>
               </li>
               <li>
-                <Link href="/shipping" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/shipping" className="text-muted-foreground hover:text-primary hover:translate-x-1 inline-block transition-all duration-300">
                   Shipping Policy
                 </Link>
               </li>
               <li>
-                <Link href="/returns" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/returns" className="text-muted-foreground hover:text-primary hover:translate-x-1 inline-block transition-all duration-300">
                   Returns & Refunds
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="/faq" className="text-muted-foreground hover:text-primary hover:translate-x-1 inline-block transition-all duration-300">
                   FAQ
                 </Link>
               </li>
@@ -134,33 +134,33 @@ export default function Footer() {
           
           {/* Newsletter */}
           <div>
-            <h3 className="font-bold text-lg mb-4">Stay Updated</h3>
-            <p className="text-muted-foreground mb-4">
+            <h3 className="font-bold text-xl mb-5">Stay Updated</h3>
+            <p className="text-muted-foreground mb-5 leading-relaxed">
               Subscribe to our newsletter for the latest products, trends, and exclusive offers.
             </p>
-            <form onSubmit={handleSubscribe} className="space-y-2">
-              <Input 
-                type="email" 
-                placeholder="Your email address" 
-                required 
-                className="bg-background"
+            <form onSubmit={handleSubscribe} className="space-y-3">
+              <Input
+                type="email"
+                placeholder="Your email address"
+                required
+                className="bg-background border-border/50 focus:border-primary transition-colors"
               />
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full hover:shadow-lg transition-all">
                 Subscribe
               </Button>
             </form>
-            <div className="flex space-x-4 mt-6">
-              <a href="https://facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook" className="text-muted-foreground hover:text-foreground">
-                <Facebook size={20} />
+            <div className="flex space-x-4 mt-8">
+              <a href="https://facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook" className="text-muted-foreground hover:text-primary hover:scale-110 transition-all duration-300">
+                <Facebook size={22} />
               </a>
-              <a href="https://twitter.com" target="_blank" rel="noreferrer" aria-label="Twitter" className="text-muted-foreground hover:text-foreground">
-                <Twitter size={20} />
+              <a href="https://twitter.com" target="_blank" rel="noreferrer" aria-label="Twitter" className="text-muted-foreground hover:text-primary hover:scale-110 transition-all duration-300">
+                <Twitter size={22} />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram" className="text-muted-foreground hover:text-foreground">
-                <Instagram size={20} />
+              <a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram" className="text-muted-foreground hover:text-primary hover:scale-110 transition-all duration-300">
+                <Instagram size={22} />
               </a>
-              <a href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="text-muted-foreground hover:text-foreground">
-                <Linkedin size={20} />
+              <a href="https://linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="text-muted-foreground hover:text-primary hover:scale-110 transition-all duration-300">
+                <Linkedin size={22} />
               </a>
             </div>
           </div>
